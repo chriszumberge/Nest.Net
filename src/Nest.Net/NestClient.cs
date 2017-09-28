@@ -2,9 +2,11 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Nest.Net
@@ -20,10 +22,10 @@ namespace Nest.Net
             _productId = productId;
             _productSecret = productSecret;
 
-            _httpClient = new HttpClient();
+            //_httpClient = new HttpClient();
         }
 
-        HttpClient _httpClient;
+        //HttpClient _httpClient;
 
         readonly string _productId;
         public string ProductId => _productId;
@@ -43,6 +45,7 @@ namespace Nest.Net
         /// <returns></returns>
         public async Task<string> GetAccessToken (string authorizationToken)
         {
+            HttpClient _httpClient = new HttpClient();
             var url = ACCESS_TOKEN_URL;
 
             var requestContent = new Dictionary<string, string>();
@@ -111,14 +114,43 @@ namespace Nest.Net
             {
                 VerifyAuthValid();
 
+                HttpClient _httpClient = new HttpClient();
 
                 var url = BASE_API_URL + "?auth={0}";
+
+                _httpClient.Timeout = TimeSpan.FromMilliseconds(60000);
 
                 var data = await _httpClient.GetStringAsync(String.Format(url, AccessToken));
 
                 NestDataModel dataModel = JsonConvert.DeserializeObject<NestDataModel>(data);
 
                 return dataModel;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                throw ex;
+            }
+        }
+
+        public async Task<Stream> GetNestEventStream()
+        {
+            try
+            {
+                VerifyAuthValid();
+
+                HttpClient _httpClient = new HttpClient();
+
+                var url = BASE_API_URL + "?auth={0}";
+
+                _httpClient.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
+
+                _httpClient.DefaultRequestHeaders.Accept.Clear();
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/event-stream"));
+
+                var stream = await _httpClient.GetStreamAsync(url);
+
+                return stream;
             }
             catch (Exception ex)
             {

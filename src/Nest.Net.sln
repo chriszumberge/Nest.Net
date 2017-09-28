@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nest.Net", "Nest.Net\Nest.Net.csproj", "{832BAE88-EB1C-43E6-9BED-3C6073499AAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nest.Net.Tests", "..\tests\Nest.Net.Tests\Nest.Net.Tests.csproj", "{853AA394-A2C9-4405-B75B-2C404AAAB7F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nest.Net.Demo", "..\samples\Nest.Net.Demo\Nest.Net.Demo.csproj", "{0D39A95E-06C8-4252-BEDA-38A6147435D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{832BAE88-EB1C-43E6-9BED-3C6073499AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{832BAE88-EB1C-43E6-9BED-3C6073499AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{832BAE88-EB1C-43E6-9BED-3C6073499AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{832BAE88-EB1C-43E6-9BED-3C6073499AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{853AA394-A2C9-4405-B75B-2C404AAAB7F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{853AA394-A2C9-4405-B75B-2C404AAAB7F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{853AA394-A2C9-4405-B75B-2C404AAAB7F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{853AA394-A2C9-4405-B75B-2C404AAAB7F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D39A95E-06C8-4252-BEDA-38A6147435D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D39A95E-06C8-4252-BEDA-38A6147435D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D39A95E-06C8-4252-BEDA-38A6147435D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D39A95E-06C8-4252-BEDA-38A6147435D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

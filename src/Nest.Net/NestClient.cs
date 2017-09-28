@@ -3,9 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,11 +19,7 @@ namespace Nest.Net
         {
             _productId = productId;
             _productSecret = productSecret;
-
-            //_httpClient = new HttpClient();
         }
-
-        //HttpClient _httpClient;
 
         readonly string _productId;
         public string ProductId => _productId;
@@ -82,6 +76,12 @@ namespace Nest.Net
             _tokenExpiration = expiration;
         }
 
+        public void VerifyAuthValid()
+        {
+            if (String.IsNullOrEmpty(_accessToken) || _tokenExpiration < DateTime.UtcNow)
+                throw new UnauthorizedAccessException("Invalid or Expired Access Token");
+        }
+
         public bool IsAuthValid()
         {
             bool valid;
@@ -108,19 +108,17 @@ namespace Nest.Net
             return String.Format(AUTHORIZATION_URL, ProductId, state);
         }
 
-        public async Task<NestDataModel> GetNestData()
+        public async Task<NestDataModel> GetNestDataAsync()
         {
             try
             {
                 VerifyAuthValid();
 
-                HttpClient _httpClient = new HttpClient();
+                HttpClient httpClient = new HttpClient();
 
                 var url = BASE_API_URL + "?auth={0}";
 
-                _httpClient.Timeout = TimeSpan.FromMilliseconds(60000);
-
-                var data = await _httpClient.GetStringAsync(String.Format(url, AccessToken));
+                var data = await httpClient.GetStringAsync(String.Format(url, AccessToken));
 
                 NestDataModel dataModel = JsonConvert.DeserializeObject<NestDataModel>(data);
 
@@ -133,24 +131,21 @@ namespace Nest.Net
             }
         }
 
-        public async Task<Stream> GetNestEventStream()
+        public async Task<Devices> GetDevicesAsync()
         {
             try
             {
                 VerifyAuthValid();
 
-                HttpClient _httpClient = new HttpClient();
+                HttpClient httpClient = new HttpClient();
 
-                var url = BASE_API_URL + "?auth={0}";
+                var url = BASE_API_URL + "devices.json?auth={0}";
 
-                _httpClient.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
+                var data = await httpClient.GetStringAsync(String.Format(url, AccessToken));
 
-                _httpClient.DefaultRequestHeaders.Accept.Clear();
-                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/event-stream"));
+                Devices devices = JsonConvert.DeserializeObject<Devices>(data);
 
-                var stream = await _httpClient.GetStreamAsync(url);
-
-                return stream;
+                return devices;
             }
             catch (Exception ex)
             {
@@ -159,10 +154,99 @@ namespace Nest.Net
             }
         }
 
-        void VerifyAuthValid()
+        public async Task<Dictionary<string, Camera>> GetCamerasAsync()
         {
-            if (String.IsNullOrEmpty(_accessToken) || _tokenExpiration < DateTime.UtcNow)
-                throw new UnauthorizedAccessException("Invalid or Expired Access Token");
+            try
+            {
+                VerifyAuthValid();
+
+                HttpClient httpClient = new HttpClient();
+
+                var url = BASE_API_URL + "devices/cameras/.json?auth={0}";
+
+                var data = await httpClient.GetStringAsync(String.Format(url, AccessToken));
+
+                Dictionary<string, Camera> cameras = JsonConvert.DeserializeObject<Dictionary<string, Camera>>(data);
+
+                return cameras;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                throw ex;
+            }
+        }
+
+        public async Task<Dictionary<string, Thermostat>> GetThermostatsAsync()
+        {
+            try
+            {
+                VerifyAuthValid();
+
+                HttpClient httpClient = new HttpClient();
+
+                var url = BASE_API_URL + "devices/thermostats/.json?auth={0}";
+
+                var data = await httpClient.GetStringAsync(String.Format(url, AccessToken));
+
+                Dictionary<string, Thermostat> thermostats = JsonConvert.DeserializeObject<Dictionary<String, Thermostat>>(data);
+
+                return thermostats;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                throw ex;
+            }
+        }
+
+        public async Task<Dictionary<string, SmokeCoAlarm>> GetSmokeCoAlarms()
+        {
+            try
+            {
+                VerifyAuthValid();
+
+                HttpClient httpClient = new HttpClient();
+
+                var url = BASE_API_URL + "devices/smoke_co_alarms/.json?auth={0}";
+
+                var data = await httpClient.GetStringAsync(String.Format(url, AccessToken));
+
+                Dictionary<string, SmokeCoAlarm> smokeCoAlarms = JsonConvert.DeserializeObject<Dictionary<string, SmokeCoAlarm>>(data);
+
+                return smokeCoAlarms;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                throw ex;
+            }
+        }
+
+        public async Task<Stream> GetNestEventStreamAsync()
+        {
+            try
+            {
+                VerifyAuthValid();
+
+                HttpClient httpClient = new HttpClient();
+
+                var url = BASE_API_URL + "?auth={0}";
+
+                httpClient.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
+
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/event-stream"));
+
+                var stream = await httpClient.GetStreamAsync(url);
+
+                return stream;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                throw ex;
+            }
         }
     }
 }

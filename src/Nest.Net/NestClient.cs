@@ -94,6 +94,10 @@ namespace Nest.Net
             return valid;
         }
 
+        /// <summary>
+        /// Gets the authorization URL.
+        /// </summary>
+        /// <returns></returns>
         public string GetAuthorizationUrl()
         {
             var state = Guid.NewGuid().ToString();

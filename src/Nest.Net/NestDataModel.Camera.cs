@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Nest.Net
 {
@@ -74,7 +75,7 @@ namespace Nest.Net
     public partial class LastEvent
     {
         [JsonProperty("end_time")]
-        public string EndTime { get; set; }
+        public DateTime EndTime { get; set; }
 
         [JsonProperty("image_url")]
         public string ImageUrl { get; set; }
@@ -101,7 +102,7 @@ namespace Nest.Net
         public string UrlsExpireTime { get; set; }
 
         [JsonProperty("start_time")]
-        public string StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         [JsonProperty("web_url")]
         public string WebUrl { get; set; }

@@ -41,4 +41,10 @@ namespace Nest.Net
         [JsonProperty("$company")]
         public Company Company { get; set; }
     }
+
+    public partial class NestStreamEventDataModel
+    {
+        [JsonProperty("data")]
+        public NestDataModel Data { get; set; }
+    }
 }

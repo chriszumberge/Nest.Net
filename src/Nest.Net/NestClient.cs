@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Nest.Net
 {
-    public class NestClient
+    public class NestClient : INestClient
     {
         const string BASE_API_URL = "https://developer-api.nest.com/";
         const string AUTHORIZATION_URL = "https://home.nest.com/login/oauth2?client_id={0}&state={1}";

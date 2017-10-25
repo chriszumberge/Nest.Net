@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="INestClient.cs" />
     <Compile Include="NestClient.cs" />
     <Compile Include="NestDataModel.Camera.cs" />
     <Compile Include="NestDataModel.Company.cs" />

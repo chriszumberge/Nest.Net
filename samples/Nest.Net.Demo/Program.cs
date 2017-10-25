@@ -12,8 +12,8 @@ namespace Nest.Net.Demo
 {
     class Program
     {
-        const string PRODUCT_ID = "";
-        const string PRODUCT_SECRET = "";
+        const string PRODUCT_ID = "1f78ae62-815e-4db2-8c1e-73a470c0b7c0";
+        const string PRODUCT_SECRET = "H6M8YVYJrhbIUynfxUWT7rMIJ";
 
         static void Main(string[] args)
         {
@@ -37,8 +37,15 @@ namespace Nest.Net.Demo
                 GetAndStoreAccessToken(file, client).Wait();
             }
 
-            NestDataModel result = client.GetNestData().Result;
+            NestDataModel result = client.GetNestDataAsync().Result;
 
+            Devices deviecs = client.GetDevicesAsync().Result;
+
+            var cameras = client.GetCamerasAsync().Result;
+
+            var thermostats = client.GetThermostatsAsync().Result;
+
+            var smokeCoAlarms = client.GetSmokeCoAlarms().Result;
         }
 
         private static async Task GetAndStoreAccessToken(string file, NestClient client)
